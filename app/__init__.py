@@ -23,7 +23,7 @@ def create_app():
     from .routes import main
     app.register_blueprint(main)
 
-    from .routes_clientes import custom
-    app.register_blueprint(custom)
+    from .routes_clientes import customer
+    app.register_blueprint(customer)
 
     return app

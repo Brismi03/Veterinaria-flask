@@ -1,0 +1,10 @@
+.custom-toast {
+    position: fixed;
+    top: 11%;
+    right: 20px;
+    z-index: 1050;
+    min-width: 400px;
+    background-color: #28a745 !important;
+    color: white !important;
+    transition: opacity 0.5s ease-out;
+}

@@ -1,0 +1,19 @@
+# Entorno virtual
+env/
+
+
+# Variables de entorno
+.env
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Base de datos local
+*.db
+*.sqlite3
+
+# Carpeta instance/ de Flask
+instance/

@@ -1,0 +1,63 @@
+/* Encabezado Principal */
+.header-section {
+    background: linear-gradient(135deg, rgba(0, 123, 255, 0.05), rgba(0, 123, 255, 0.01));
+    border-radius: 15px;
+    padding: 2rem;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.05);
+}
+
+/* Tarjetas de reportes */
+.report-card {
+    border-radius: 10px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    overflow: hidden;
+}
+
+.report-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* Ícono en la tarjeta */
+.icon-container {
+    width: 100px;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 123, 255, 0.1);
+    border-radius: 50%;
+    margin-right: 15px;
+}
+
+.icon-container i {
+    font-size: 2.5rem;
+}
+
+/* Botones de las tarjetas */
+.report-card .btn {
+    border-radius: 20px;
+    font-weight: bold;
+}
+
+/* Texto */
+.card-title {
+    font-size: 1.2rem;
+    color: #333;
+}
+
+.card-text {
+    font-size: 0.95rem;
+    color: #6c757d;
+}
+
+/* Ajustar el diseño para pantallas pequeñas */
+@media (max-width: 768px) {
+    .d-flex {
+        flex-direction: column;
+    }
+
+    .icon-container {
+        margin: 0 auto 15px;
+    }
+}

@@ -1,0 +1,94 @@
+{% extends './layout.html' %}
+
+{% block buscador %}
+<form method="get" class="d-flex" action="{{ url_for('clientes.listar_clientes')}}">
+    <div class="input-group">
+        <input type="text" name="search" class="form-control" placeholder="Buscar cliente..."
+            value="{{ search_query }}">
+        <button type="submit" class="btn btn-primary">
+            <i class="fa fa-search"></i>
+        </button>
+    </div>
+</form>
+{% endblock %}
+{% block content %}
+<div class="container mt-5">
+    <div class="card">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <h4 class="card-title">Lista de Clientes</h4>
+            <a href="{{ url_for('clientes.crear_cliente')}}" class="btn btn-primary">
+                <i class="fa fa-plus"></i> Agregar Nuevo Cliente
+            </a>
+        </div>
+        <div class="card-body">
+            {% if page_obj.items %}
+            <div class="table-responsive">
+                <table class="table table-striped table-hover">
+                    <thead class="table-primary">
+                        <tr>
+                            <th>ID</th>
+                            <th>Nombre</th>
+                            <th>Edad</th>
+                            <th>Dirección</th>
+                            <th>Teléfono</th>
+                            <th>Email</th>
+                            <th class="text-center">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for cliente in page_obj.items %}
+                        <tr>
+                            <td>{{ cliente.id }}</td>
+                            <td>{{ cliente.nombre }}</td>
+                            <td>{{ cliente.edad }}</td>
+                            <td>{{ cliente.direccion }}</td>
+                            <td>{{ cliente.telefono }}</td>
+                            <td>{{ cliente.email }}</td>
+                            <td class="text-center">
+                                <a href="#" class="btn btn-outline-primary btn-sm rounded-circle p-2 me-2"
+                                    title="Editar">
+                                    <i class="fas fa-edit fs-6"></i>
+                                </a>
+                                <a href="#" class="btn btn-outline-danger btn-sm rounded-circle p-2" title="Eliminar">
+                                    <i class="fas fa-trash-alt fs-6"></i>
+                                </a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Paginación -->
+            <nav>
+                <ul class="pagination">
+                    {% if page_obj.has_prev %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ page_obj.prev_num }}&search={{ search_query }}">Anterior</a>
+                    </li>
+                    {% endif %}
+
+                    {% for num in page_obj.iter_pages() %}
+                    <li class="page-item {% if num == page_obj.page %} active {% endif %}">
+                        <a class="page-link" href="?page={{ num }}&search={{ search_query }}">{{ num }}</a>
+                    </li>
+                    {% endfor %}
+
+                    {% if page_obj.has_next %}
+                    <li class="page-item">
+                        <a class="page-link"
+                            href="?page={{ page_obj.next_num }}&search={{ search_query }}">Siguiente</a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </nav>
+
+        </div>
+
+        {% else %}
+        <p class="text-muted">No hay clientes registrados aún.</p>
+        {% endif %}
+    </div>
+</div>
+</div>
+{% endblock %}

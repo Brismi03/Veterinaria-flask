@@ -1,0 +1,267 @@
+{% extends './layout.html' %}
+
+{% block content %}
+
+
+
+<div class="container mt-5">
+
+
+    <div class="row">
+        <!-- Recuadro 1: Consultas de hoy -->
+        <div class="col-sm-6 col-md-4">
+            <div class="card card-stats card-round">
+                <div class="card-body">
+                    <div class="row align-items-center">
+                        <div class="col-icon">
+                            <div class="icon-big text-center icon-primary bubble-shadow-small">
+                                <i class="fas fa-calendar-day"></i>
+                            </div>
+                        </div>
+                        <div class="col col-stats ms-3 ms-sm-0">
+                            <div class="numbers">
+                                <p class="card-category">Consultas hoy</p>
+                                <!-- <h4 class="card-title">{{ consultas_hoy }}</h4> -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+        <!-- Recuadro 2: Fecha actual -->
+        <div class="col-sm-6 col-md-4">
+            <div class="card card-stats card-round">
+                <div class="card-body">
+                    <div class="row align-items-center">
+                        <div class="col-icon">
+                            <div class="icon-big text-center icon-info bubble-shadow-small">
+                                <i class="fas fa-calendar"></i>
+                            </div>
+                        </div>
+                        <div class="col col-stats ms-3 ms-sm-0">
+                            <div class="numbers">
+                                <p class="card-category">Fecha Actual</p>
+                                <!-- <h4 class="card-title">{{ fecha_actual }}</h4> -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+        <!-- Recuadro 3: Hora actual -->
+        <div class="col-sm-6 col-md-4">
+            <div class="card card-stats card-round">
+                <div class="card-body">
+                    <div class="row align-items-center">
+                        <div class="col-icon">
+                            <div class="icon-big text-center icon-success bubble-shadow-small">
+                                <i class="fas fa-clock"></i>
+                            </div>
+                        </div>
+                        <div class="col col-stats ms-3 ms-sm-0">
+                            <div class="numbers">
+                                <p class="card-category">Hora Actual</p>
+                                <!-- <h4 class="card-title">{{ hora_actual }}</h4> -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    
+
+    <div class="row mb-5">
+        <!-- Contenedor de ambas tarjetas -->
+        <div class="col-md-12">
+            <div class="card-group">
+                <!-- Tarjeta izquierda: Datos de la cita -->
+                <div class="card mb-3">
+                    <div class="card-header text-white">
+                        <h3 class="card-title">Cita en Curso</h3>
+                    </div>
+                    <div class="card-body">
+                        {% if cita_en_curso %}
+                        <div class="row mb-3">
+                            <div class="col-12">
+                                <p><strong>Cliente:</strong> <span class="text-muted">{{ cita_en_curso.cliente.nombre }}</span></p>
+                                <p><strong>Motivo:</strong> <span class="text-muted">{{ cita_en_curso.motivo }}</span></p>
+                                <p><strong>Hora de inicio:</strong> <span class="text-muted">{{ cita_en_curso.fecha_hora }}</span></p>
+                                <p><strong>Estado:</strong>
+                                    <span class="badge 
+                                        {% if cita_en_curso.estado == 'pendiente' %}bg-warning 
+                                        {% elif cita_en_curso.estado == 'confirmada' %}bg-success 
+                                        {% elif cita_en_curso.estado == 'cancelada' %}bg-danger 
+                                        {% elif cita_en_curso.estado == 'completada' %}bg-secondary 
+                                        {% endif %}">
+                                        
+                                    </span>
+                                </p>
+                            </div>
+                        </div>
+                        {% else %}
+                        <p class="text-muted text-center mt-4">No hay una cita en curso en este momento.</p>
+                        {% endif %}
+                    </div>
+                </div>
+    
+                <!-- Tarjeta derecha: Formulario para actualizar el estado -->
+                <div class="card mb-3">
+                    <div class="card-header text-white">
+                        <h3 class="card-title">Actualizar Estado</h3>
+                    </div>
+                    <div class="card-body">
+                        {% if cita_en_curso %}
+                        <form method="POST" action="{{ url_for('actualizar_estado_cita', cita_en_curso.id )}}">
+                            
+                            <div class="mb-3">
+                                <label for="estado" class="form-label">Actualizar estado de la cita:</label>
+                                <select name="estado" id="estado" class="form-select">
+                                    <option value="pendiente" {% if cita_en_curso.estado == "pendiente" %}selected{% endif %}>Pendiente</option>
+                                    <option value="confirmada" {% if cita_en_curso.estado == "confirmada" %}selected{% endif %}>Confirmada</option>
+                                    <option value="cancelada" {% if cita_en_curso.estado == "cancelada" %}selected{% endif %}>Cancelada</option>
+                                    <option value="completada" {% if cita_en_curso.estado == "completada" %}selected{% endif %}>Completada</option>
+                                </select>
+                            </div>
+                            <button type="submit" class="btn btn-primary mt-2">Actualizar Estado</button>
+                        </form>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+
+
+
+    
+    <main>
+        <div class="card">
+            <div class="card-header text-white">
+                <h2 class="card-title">Citas Próximas</h2>
+            </div>
+            <div class="card-body">
+                {% if citas_proximas %}
+                <div class="table-responsive">
+                    <table class="table table-striped table-hover">
+                        <thead class="table-primary">
+                            <tr>
+                                <th>Cliente</th>
+                                <th>Fecha y Hora</th>
+                                <th>Motivo</th>
+                                <th>Duración</th>
+                                <th>Estado</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for cita in citas_proximas %}
+                            <tr>
+                                <td>{{ cita.cliente.nombre }}</td>
+                                <td>{{ cita.fecha_hora}}</td>
+                                <td>{{ cita.motivo }}</td>
+                                <td>{{ cita.duracion }} min</td>
+                                <td>
+                                    <span class="badge 
+                                        {% if cita.estado == 'pendiente' %}bg-warning 
+                                        {% elif cita.estado == 'confirmada' %}bg-success 
+                                        {% elif cita.estado == 'cancelada' %}bg-danger 
+                                        {% elif cita.estado == 'completada' %}bg-secondary 
+                                        {% endif %}">
+                                        {{ cita.estado }}
+                                    </span>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% else %}
+                <p class="text-muted text-center">No hay citas próximas registradas.</p>
+                {% endif %}
+            </div>
+        </div>
+    </main>
+</div>
+<div class="container">
+    <h3 class="fw-bold mb-3">Análisis de datos</h3>
+    <div class="row">
+        <!-- Gráfica de Citas agendadas por mes -->
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">Citas agendadas por mes</div>
+                </div>
+                <div class="card-body">
+                    <div class="chart-container">
+                        <canvas id="lineChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Gráfica de Mascotas por especie -->
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">Cantidad de especies frecuentes en la cita</div>
+                </div>
+                <div class="card-body">
+                    <div class="chart-container">
+                        <canvas id="barChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Inicializar Line Chart si existe
+        var lineChartCanvas = document.getElementById('lineChart');
+        if (lineChartCanvas) {
+            var ctxLine = lineChartCanvas.getContext('2d');
+            new Chart(ctxLine, {
+                type: 'line',
+                data: {
+                    labels: ['Octubre', 'Noviembre', 'Diciembre'],
+                    datasets: [{
+                        label: 'Citas',
+                        data: [10, 20, 15],
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    }]
+                },
+                options: { responsive: true }
+            });
+        }
+
+        // Inicializar Bar Chart si existe
+        var barChartCanvas = document.getElementById('barChart');
+        if (barChartCanvas) {
+            var ctxBar = barChartCanvas.getContext('2d');
+            new Chart(ctxBar, {
+                type: 'bar',
+                data: {
+                    labels: ['Aves', 'Perros', 'Gatos'],
+                    datasets: [{
+                        label: 'Especies',
+                        data: [5, 15, 25],
+                        backgroundColor: ['rgba(54, 162, 235, 0.2)'],
+                        borderColor: ['rgba(54, 162, 235, 1)'],
+                        borderWidth: 1,
+                    }]
+                },
+                options: { responsive: true }
+            });
+        }
+    });
+</script>
+
+
+
+{% endblock %}

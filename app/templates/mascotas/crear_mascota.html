@@ -1,0 +1,76 @@
+{% extends './layout.html' %}
+
+{% block content %}
+
+<div class="container">
+    <div class="card" style="margin: 30px;">
+        <div class="card-header text-center border-3">
+            <h1 class="h4 mb-0 fw-bold">Agregar Nueva Mascota</h1>
+        </div>
+    
+        <div class="card-body">
+            <form method="POST"   enctype="multipart/form-data" action="{{ url_for('mascotas.crear_mascota') }}">
+                
+                <div class="mb-3">
+                    <label class="fw-bold">Nombre:</label>
+                    <input class="form-control" name="nombre" required>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-6">
+                        <label class="fw-bold">Especie:</label>
+                        <input class="form-control" name="especie" required>
+                    </div>
+
+                    <div class="col-6">
+                        <label class="fw-bold">Raza:</label>
+                        <input class="form-control" name="raza">
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-4">
+                        <label class="fw-bold">Edad:</label>
+                        <input class="form-control" name="edad">
+                    </div>
+
+                    <div class="col-4">
+                        <label class="fw-bold">Peso (kg):</label>
+                        <input class="form-control" step="0.1" name="peso">
+                    </div>
+
+                    <div class="col-4">
+                        <label class="fw-bold">Sexo:</label>
+                        <select class="form-select" name="sexo" required>
+                            <option value="M">Macho</option>
+                            <option value="H">Hembra</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-2">
+                        <label class="fw-bold">Esterilizado:</label>
+                        <input class="form-check-input" type="checkbox" style="transform: scale(1.5); margin: 8px; " name="esterilizado">
+                    </div>
+                    <div class="col-4">
+                        <label class="fw-bold">Cliente:</label>
+                        <select class="form-select" name="cliente_id" required>
+                            <option value="">Seleccione un cliente</option>
+                            {% for c in clientes %}
+                                <option value="{{ c.id }}">{{ c.nombre }} {{ c.apellidos }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col-6 mb-3">
+                        <label class="fw-bold">Imagen de la mascota:</label>
+                        <input type="file" name="imagen" class="form-control" accept="image/*">
+                    </div>
+                </div>
+                <div class="d-flex justify-content-end gap-2">
+                    <button class="btn btn-primary" type="submit">Guardar Mascota</button>
+                    <a class="btn btn-secondary" href="{{ url_for('mascotas.listar_mascotas') }}">Cancelar</a>
+                </div>
+            </form>
+       </div>
+  </div>
+</div>
+{% endblock  %}

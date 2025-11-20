@@ -1,0 +1,117 @@
+{% extends './layout.html' %}
+
+{% block buscador %}
+<form method="get" class="d-flex"
+    action="{{ url_for('mascotas.listar_mascotas') }}">
+    <div class="input-group">
+        <input type="text" name="search" class="form-control"
+            placeholder="Buscar mascota..."
+            value="{{ search_query }}">
+        <button type="submit" class="btn btn-primary">
+            <i class="fa fa-search"></i>
+        </button>
+    </div>
+</form>
+{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="card">
+        <div
+            class="card-header d-flex justify-content-between align-items-center">
+            <h4 class="card-title">Registro de Mascotas</h4>
+            <a href="{{url_for('mascotas.crear_mascota')}}"
+                class="btn btn-primary">
+                <i class="fa fa-plus"></i> Agregar Nueva Mascota
+            </a>
+        </div>
+        <div class="card-body">
+            {% if mascotas %}
+            <div class="table-responsive">
+                <table class="table table-striped table-hover">
+                    <thead class="table-primary">
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Raza</th>
+                            <th>Dueño</th>
+                            <th class="text-center">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in mascotas %}
+                        <tr>
+                            <td>{{ item.nombre }}</td>
+                            <td>{{ item.raza }}</td>
+                            <td>{{ item.cliente }}</td>
+                            <td class="text-center">
+                                <a
+                                    href="{{url_for('mascotas.ver_mascota', mascota_id=item.id)}}"
+                                    class="btn btn-link text-info"
+                                    title="Ver Perfil">
+                                    <i class="fa fa-eye"></i>
+                                </a>
+                                <a href="#"
+                                    class="btn  btn-sm"
+                                    title="Eliminar">
+                                    <i class="fas fa-trash-alt fs-6"
+                                        style="color: red;"></i>
+                                </a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            {% else %}
+            <p class="text-muted">No hay mascotas registradas aún.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+<div class="container">
+    <h3 class="fw-bold mb-3">Grafica Mascotas</h3>
+    <div class="row">
+        <!-- Gráfica Bar Chart -->
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">Mascotas por especie</div>
+                </div>
+                <div class="card-body">
+                    <div class="chart-container">
+                        <canvas id="barChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Scripts de inicialización de las gráficas -->
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+
+        // Inicializar Bar Chart si existe
+        var barChartCanvas = document.getElementById('barChart');
+        if (barChartCanvas) {
+            var ctxBar = barChartCanvas.getContext('2d');
+            new Chart(ctxBar, {
+                type: 'bar',
+                data: {
+                    labels: ['Aves', 'Gatos', 'Perros'],
+                    datasets: [{
+                        label: 'Cantidad de mascotas',
+                        data: [5, 15, 25],
+                        backgroundColor: ['rgba(54, 162, 235, 0.2)'],
+                        borderColor: ['rgba(54, 162, 235, 1)'],
+                        borderWidth: 1,
+                    }]
+                },
+                options: { responsive: true }
+            });
+        }
+    });
+</script>
+
+{% endblock %}

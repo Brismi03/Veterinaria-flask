@@ -19,7 +19,7 @@ def listar_clientes():
     pagination = query.paginate(page=page, per_page=page_size)
 
     return render_template(
-        "cliente.html",
+        "clientes/cliente.html",
         page_obj=pagination,
         search_query=search,
         page_size=page_size
@@ -48,7 +48,7 @@ def crear_cliente():
         flash("Cliente creado correctamente", "success")
         return redirect(url_for("clientes.listar_clientes"))
 
-    return render_template("crear_cliente.html")
+    return render_template("clientes/crear_cliente.html")
 
 @customer.route("/clientes/editar/<int:id>", methods=["GET", "POST"])
 def editar_cliente(id):
@@ -66,7 +66,7 @@ def editar_cliente(id):
         flash("Cliente actualizado", "success")
         return redirect(url_for("clientes.listar_clientes"))
 
-    return render_template("editar_cliente.html", cliente=cliente)
+    return render_template("clientes/editar_cliente.html", cliente=cliente)
 
 @customer.route("/clientes/eliminar/<int:id>")
 def eliminar_cliente(id):

@@ -1,0 +1,214 @@
+{% extends './layout.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="page-inner">
+        <div class="row ">
+            <div class="card p-3 mt-3 w-100" style="color: rgb(51, 115, 252);">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h2 class="fw-bold mb-0">
+                        Perfil Completo de {{ mascota.nombre }}
+                    </h2>
+                    <div>
+                        <a href="{{url_for('mascotas.listar_mascotas')}}"
+                            class="btn btn-label-info btn-round me-2">
+                            Volver a registros
+                        </a>
+                        <a href="#" class="btn btn-primary btn-round">
+                            Agregar diagnostico
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row row-card-no-pd">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between">
+                            <div class="row w-100 justify-content-center">
+                                
+                                <div class="col-12 col-md-4 text-center mb-4">
+                                    {% if mascota.imagen %}
+                                    <img
+                                        src="{{ url_for('static', filename='uploads/' + mascota.imagen) }}"
+                                        class="img-fluid rounded shadow">
+                                    {% else %}
+                                    <img
+                                        src="{{ url_for('static', filename='generalStatic/no-image.png') }}"
+                                        class="img-fluid rounded shadow">
+                                    {% endif %}
+                                </div>
+
+                                
+                                <div class="col-12 col-md-8">
+
+                                    
+                                    <div class="mb-4 pb-2 border-bottom">
+                                        <h5 class="text-primary fw-bold fs-5 mb-2">Nombre
+                                            del paciente</h5>
+                                        <p class="fs-4 fw-semibold text-dark mb-0">{{
+                                            mascota.nombre }}</p>
+                                    </div>
+
+                                    
+                                    <div class="row mb-4 pb-2 border-bottom">
+                                        <div class="col-6">
+                                            <h6
+                                                class="text-secondary fs-6 mb-1">Especie</h6>
+                                            <p
+                                                class="fs-5 fw-semibold mb-0 text-dark">{{
+                                                mascota.especie }}</p>
+                                        </div>
+                                        <div class="col-6">
+                                            <h6
+                                                class="text-secondary fs-6 mb-1">Raza</h6>
+                                            <p
+                                                class="fs-5 fw-semibold mb-0 text-dark">{{
+                                                mascota.raza }}</p>
+                                        </div>
+                                    </div>
+
+                                    
+                                    <div class="row mb-4 pb-2 border-bottom">
+                                        <div class="col-6">
+                                            <h6
+                                                class="text-secondary fs-6 mb-1">Edad</h6>
+                                            <p
+                                                class="fs-5 fw-semibold mb-0 text-dark">{{
+                                                mascota.edad }} años</p>
+                                        </div>
+                                        <div class="col-6">
+                                            <h6
+                                                class="text-secondary fs-6 mb-1">Peso</h6>
+                                            <p
+                                                class="fs-5 fw-semibold mb-0 text-dark">{{
+                                                mascota.peso }} kg</p>
+                                        </div>
+                                    </div>
+
+                                   
+                                    <div class="row mb-4 pb-2 border-bottom">
+                                        <div class="col-6">
+                                            <h6
+                                                class="text-secondary fs-6 mb-1">Sexo</h6>
+                                            <p
+                                                class="fs-5 fw-semibold mb-0 text-dark">{{
+                                                mascota.sexo }}</p>
+                                        </div>
+                                        <div class="col-6">
+                                            <h6
+                                                class="text-secondary fs-6 mb-1">Esterilizado</h6>
+                                            <p
+                                                class="fs-5 fw-semibold mb-0 text-dark">{{
+                                                mascota.esterilizado }}</p>
+                                        </div>
+                                    </div>
+
+                                    
+                                    <div class="mb-4">
+                                        <h6
+                                            class="text-secondary fs-6 mb-1">Dueño
+                                            / Responsable</h6>
+                                        <p
+                                            class="fs-5 fw-semibold mb-0 text-dark">{{
+                                            mascota.cliente }}</p>
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sección  (historial médico y citas programadas) -->
+        <div class="row">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-head-row">
+                            <div class="card-title">Historial Médico</div>
+                            <div class="card-tools">
+                                <a href="#"
+                                    class="btn btn-label-success btn-round btn-sm me-2">
+                                    <span class="btn-label">
+                                        <i class="fa fa-pencil"></i>
+                                    </span>
+                                    Export
+                                </a>
+                                <a href="#"
+                                    class="btn btn-label-info btn-round btn-sm">
+                                    <span class="btn-label">
+                                        <i class="fa fa-print"></i>
+                                    </span>
+                                    Print
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        {% if historial_medico %}
+                        <ul class="list-unstyled">
+                            {% for historial in historial_medico %}
+                            <li
+                                class="bg-light p-3 mb-3 rounded d-flex align-items-center">
+                                <i
+                                    class="fas fa-stethoscope text-primary me-3 fs-4"></i>
+                                <div>
+                                    <strong>Fecha:</strong> {{
+                                    historial.fechaYhora }} <br>
+                                    <strong>Diagnóstico:</strong> {{
+                                    historial.diagnostico }} <br>
+                                    <strong>Tratamiento:</strong> {{
+                                    historial.tratamiento }} <br>
+                                </div>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                        {% else %}
+                        <p>No hay historial médico disponible para esta
+                            mascota.</p>
+                        {% endif %}
+                    </div>
+
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card card-primary">
+                    <div class="card-header">
+                        <div class="card-head-row">
+                            <div class="card-title">Citas programadas</div>
+                            <div class="card-tools"></div>
+                        </div>
+                    </div>
+                    <div class="card-body pb-0">
+                        {% if cita_mascota %}
+                        <ul class="list-unstyled">
+                            {% for cita in cita_mascota %}
+                            <li
+                                class="p-3 mb-3 rounded d-flex align-items-center">
+                                <i
+                                    class="fas fa-calendar-plus style='color:white' me-3 fs-4"></i>
+                                <div>
+                                    <strong>Fecha y Hora :</strong> {{
+                                    cita.fecha_hora }} <br>
+                                    <strong>Motivo:</strong> {{ cita.motivo }}
+                                    <br>
+                                </div>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                        {% else %}
+                        <p>No hay citas proximas para esta mascota. </p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

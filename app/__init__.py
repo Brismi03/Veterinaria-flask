@@ -16,6 +16,11 @@ def create_app():
     app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL')
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
+    #Configuración para subir imagenes
+    app.config['UPLOAD_FOLDER'] = os.path.join(app.root_path, 'static', 'uploads')
+    app.config['MAX_CONTENT_LENGTH'] = 4 * 1024 * 1024  
+
+
     # Inicializar SQLAlchemy
     db.init_app(app)
 
@@ -25,5 +30,8 @@ def create_app():
 
     from .routes_clientes import customer
     app.register_blueprint(customer)
+
+    from .routes_mascotas import pet
+    app.register_blueprint(pet)
 
     return app

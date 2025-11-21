@@ -42,7 +42,7 @@
                         <tr>
                             <td>{{ item.nombre }}</td>
                             <td>{{ item.raza }}</td>
-                            <td>{{ item.cliente }}</td>
+                            <td>{{ item.cliente.nombre }}</td>
                             <td class="text-center">
                                 <a
                                     href="{{url_for('mascotas.ver_mascota', mascota_id=item.id)}}"

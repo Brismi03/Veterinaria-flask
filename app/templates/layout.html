@@ -48,7 +48,7 @@
       <div class="sidebar-logo">
         <!-- Logo Header -->
         <div class="logo-header" style="background-color:#0d6efd;">
-          <a href="{{ url_for('main.index')}}" class="logo">
+          <a href="{{ url_for('citas.panel_citas')}}" class="logo">
             <img src="https://www.zarla.com/images/zarla-carevet-1x1-2400x2400-20210809-ctbb9btmp84tpccp4hdr.png?crop=1:1,smart&width=250&dpr=2"
                                              alt="logo" class="img-fluid me-3" style="height: 2.5rem; width: auto;" />
           </a>
@@ -72,7 +72,7 @@
 
 
             <li class="nav-item">
-              <a href="{{ url_for('main.index')}}">
+              <a href="{{ url_for('citas.panel_citas')}}">
                 <i class="fas fa-home" style="color:white; font-size: 24px;"></i>
                 <p style="color:white; font-size: 18px;">Inicio</p>
               </a>
@@ -98,7 +98,7 @@
             </li>
             <br>
             <li class="nav-item">
-              <a href="{{ url_for('main.lista_citas') }}">
+              <a href="{{ url_for('citas.ver_citas') }}">
                 <i class="fas fa-calendar-check" style="color:white; font-size: 24px"></i>
                 <p style="color:white; font-size: 18px;">Citas medicas</p>
               </a>
@@ -216,7 +216,7 @@
                   <div class="quick-actions-scroll scrollbar-outer">
                     <div class="quick-actions-items">
                       <div class="row m-0">
-                        <a class="col-6 col-md-6 p-0" href="{{ url_for('main.index') }}">
+                        <a class="col-6 col-md-6 p-0" href="{{ url_for('citas.panel_citas') }}">
                           <div class="quick-actions-item">
                             <div class="avatar-item bg-danger rounded-circle">
                               <i class="far fa-calendar-alt"></i>

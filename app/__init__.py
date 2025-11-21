@@ -34,4 +34,7 @@ def create_app():
     from .routes_mascotas import pet
     app.register_blueprint(pet)
 
+    from .routes_citas import appt
+    app.register_blueprint(appt)
+
     return app

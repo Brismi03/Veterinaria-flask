@@ -1,0 +1,54 @@
+{% extends './layout.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="card">
+        <div class="card-header bg-primary text-white">
+            <h4>Nueva Cita Médica</h4>
+        </div>
+
+        <div class="card-body">
+            <form method="POST">
+
+                <div class="mb-3">
+                    <label>Cliente</label>
+                    <select name="cliente_id" class="form-control" required>
+                        <option value="">Seleccione un cliente</option>
+                        {% for c in clientes %}
+                            <option value="{{ c.id }}">{{ c.nombre }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label>Mascota</label>
+                    <select name="mascota_id" class="form-control" required>
+                        <option value="">Seleccione una mascota</option>
+                        {% for m in mascotas %}
+                            <option value="{{ m.id }}">{{ m.nombre }} ({{ m.especie }})</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label>Fecha y hora de la cita</label>
+                    <input type="datetime-local" name="fecha_hora" class="form-control" required>
+                </div>
+
+                <div class="mb-3">
+                    <label>Motivo</label>
+                    <textarea name="motivo" class="form-control" required></textarea>
+                </div>
+
+                <div class="mb-3">
+                    <label>Duración (minutos)</label>
+                    <input type="number" name="duracion" value="30" class="form-control">
+                </div>
+
+                <button type="submit" class="btn btn-primary">Guardar cita</button>
+                <a href="{{url_for('citas.ver_citas')}}" class="btn btn-secondary">Regresar</a>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

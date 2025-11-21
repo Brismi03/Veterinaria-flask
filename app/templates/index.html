@@ -2,13 +2,10 @@
 
 {% block content %}
 
-
-
 <div class="container mt-5">
 
 
     <div class="row">
-        <!-- Recuadro 1: Consultas de hoy -->
         <div class="col-sm-6 col-md-4">
             <div class="card card-stats card-round">
                 <div class="card-body">
@@ -29,7 +26,6 @@
             </div>
         </div>
     
-        <!-- Recuadro 2: Fecha actual -->
         <div class="col-sm-6 col-md-4">
             <div class="card card-stats card-round">
                 <div class="card-body">
@@ -50,7 +46,6 @@
             </div>
         </div>
     
-        <!-- Recuadro 3: Hora actual -->
         <div class="col-sm-6 col-md-4">
             <div class="card card-stats card-round">
                 <div class="card-body">
@@ -75,7 +70,7 @@
     
 
     <div class="row mb-5">
-        <!-- Contenedor de ambas tarjetas -->
+    
         <div class="col-md-12">
             <div class="card-group">
                 <!-- Tarjeta izquierda: Datos de la cita -->
@@ -83,19 +78,21 @@
                     <div class="card-header text-white">
                         <h3 class="card-title">Cita en Curso</h3>
                     </div>
+
                     <div class="card-body">
                         {% if cita_en_curso %}
                         <div class="row mb-3">
                             <div class="col-12">
-                                <p><strong>Cliente:</strong> <span class="text-muted">{{ cita_en_curso.cliente.nombre }}</span></p>
-                                <p><strong>Motivo:</strong> <span class="text-muted">{{ cita_en_curso.motivo }}</span></p>
-                                <p><strong>Hora de inicio:</strong> <span class="text-muted">{{ cita_en_curso.fecha_hora }}</span></p>
+
+                                <p><strong>Cliente:</strong> <span class="text-muted">{{ cita.cliente.nombre }}</span></p>
+                                <p><strong>Motivo:</strong> <span class="text-muted">{{ cita.motivo }}</span></p>
+                                <p><strong>Hora de inicio:</strong> <span class="text-muted">{{ cita.fecha_hora }}</span></p>
                                 <p><strong>Estado:</strong>
                                     <span class="badge 
-                                        {% if cita_en_curso.estado == 'pendiente' %}bg-warning 
-                                        {% elif cita_en_curso.estado == 'confirmada' %}bg-success 
-                                        {% elif cita_en_curso.estado == 'cancelada' %}bg-danger 
-                                        {% elif cita_en_curso.estado == 'completada' %}bg-secondary 
+                                        {% if cita.estado == 'pendiente' %}bg-warning 
+                                        {% elif cita.estado == 'confirmada' %}bg-success 
+                                        {% elif cita.estado == 'cancelada' %}bg-danger 
+                                        {% elif cita == 'completada' %}bg-secondary 
                                         {% endif %}">
                                         
                                     </span>
@@ -115,15 +112,15 @@
                     </div>
                     <div class="card-body">
                         {% if cita_en_curso %}
-                        <form method="POST" action="{{ url_for('actualizar_estado_cita', cita_en_curso.id )}}">
+                        <form method="POST" action="{{url_for('citas.actualizar_estado_cita', cita_id=cita.id)}}">
                             
                             <div class="mb-3">
                                 <label for="estado" class="form-label">Actualizar estado de la cita:</label>
                                 <select name="estado" id="estado" class="form-select">
-                                    <option value="pendiente" {% if cita_en_curso.estado == "pendiente" %}selected{% endif %}>Pendiente</option>
-                                    <option value="confirmada" {% if cita_en_curso.estado == "confirmada" %}selected{% endif %}>Confirmada</option>
-                                    <option value="cancelada" {% if cita_en_curso.estado == "cancelada" %}selected{% endif %}>Cancelada</option>
-                                    <option value="completada" {% if cita_en_curso.estado == "completada" %}selected{% endif %}>Completada</option>
+                                    <option value="pendiente" {% if cita.estado == "pendiente" %}selected{% endif %}>Pendiente</option>
+                                    <option value="confirmada" {% if cita.estado == "confirmada" %}selected{% endif %}>Confirmada</option>
+                                    <option value="cancelada" {% if cita.estado == "cancelada" %}selected{% endif %}>Cancelada</option>
+                                    <option value="completada" {% if cita == "completada" %}selected{% endif %}>Completada</option>
                                 </select>
                             </div>
                             <button type="submit" class="btn btn-primary mt-2">Actualizar Estado</button>
@@ -134,10 +131,6 @@
             </div>
         </div>
     </div>
-    
-
-
-
     
     <main>
         <div class="card">
@@ -221,7 +214,6 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-        // Inicializar Line Chart si existe
         var lineChartCanvas = document.getElementById('lineChart');
         if (lineChartCanvas) {
             var ctxLine = lineChartCanvas.getContext('2d');
@@ -240,7 +232,6 @@
             });
         }
 
-        // Inicializar Bar Chart si existe
         var barChartCanvas = document.getElementById('barChart');
         if (barChartCanvas) {
             var ctxBar = barChartCanvas.getContext('2d');
